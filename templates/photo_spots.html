@@ -1,0 +1,51 @@
+{% extends "base1.html" %}
+
+{% block title %} Fotogeniczne miejsca {% endblock %}
+
+{% block content %}
+    <div class="tbl-header">
+        <table cellpadding="0" cellspacing="0" border="0">
+            <thead>
+            <tr>
+                <th>Zdjęcie</th>
+                <th>Współrzędne</th>
+                <th>Mapa</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="tbl-photo-spots">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+    {% for spot in spots %}
+        <tr>
+            <td><img style="width: 450px" src="/media/{{ spot.photo_path }}"></td>
+            <td><div class="cordinates">{{ spot.cordinates }}</div></td>
+            {% autoescape off %}
+                <td>{{ spot.iframe }}</td>
+            {% endautoescape %}
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+
+    <div class="pagination">
+    <span class="step-links">
+        {% if spots.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ spots.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ spots.number }} of {{ spots.paginator.num_pages }}.
+        </span>
+
+        {% if spots.has_next %}
+            <a href="?page={{ spots.next_page_number }}">next</a>
+            <a href="?page={{ spots.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+    </div>
+
+{% endblock %}

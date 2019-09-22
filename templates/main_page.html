@@ -1,0 +1,70 @@
+{% extends 'base1.html' %}
+{% block title %}
+    Lista tras
+{% endblock %}
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+        {% endfor %}
+    {% endif %}
+    <div class="tbl-header">
+    <table cellpadding="0" cellspacing="0" border="0">
+        <thead>
+            <tr>
+                <th>Start</th>
+                <th>Koniec</th>
+                <th class="rating">Stan nawierzchni<a href="?order_by=surface_condition">&#x21D3 </a></th>
+                <th class="rating">Widoki<a href="?order_by=scenic_rating">&#x21D3</a></th>
+                <th class="rating">Radość z jazdy<a href="?order_by=funny_to_drive">&#x21D3</a></th>
+                <th>Kraj</th>
+                <th>Region</th>
+                <th>Szczegóły</th>
+                <th>Dodaj do swojej listy</th>
+            </tr>
+        </thead>
+    </table>
+        </div>
+    <div class="tbl-content">
+    <table cellpadding="0" cellspacing="0" border="0">
+      <tbody>
+        {% for route in routes %}
+            <tr>
+                <td>{{ route.starts }}</td>
+                <td>{{ route.ends }}</td>
+                <td class="rating">{{ route.surface_condition }}</td>
+                <td class="rating">{{ route.scenic_rating }}</td>
+                <td class="rating">{{ route.funny_to_drive }}</td>
+                <td>{{ route.country.name }}</td>
+                <td>{{ route.region.name }}</td>
+{#                <td><button class="button_cont" id="details">Rozwiń</button></td>#}
+                <td><div class="button_cont" id="details" align="center"><span>Rozwiń</div></td>
+                <td id="add_to_list">
+                    {% if user.is_authenticated %}
+                        <form method="post" class="forms" id="route">
+                            <input type="number" value="{{ route.id }}" class="none_display" name="route_pk">
+                            <select name="list_name">
+                                {% for list in lists %}
+                                    <option>{{ list.name }}</option>
+                                {% endfor %}
+                            </select>
+                            {% csrf_token %}
+                            <input class="submit_btn_small" type="submit" value="Dodaj">
+                        </form>
+                    {% endif %}
+                    {% if user.is_authenticated == False %}
+                        Zaloguj się lub zarejestruj!
+                    {% endif %}
+                </td>
+            </tr>
+            <tr class="hidden">
+                <td colspan="4">{% autoescape off %}{{ route.embed_view }} {% endautoescape %}</td>
+                <td colspan="4"> {{ route.description }}</td>
+            </tr>
+        {% endfor %}
+     </tbody>
+    </table>
+    </div>
+
+
+{% endblock %}

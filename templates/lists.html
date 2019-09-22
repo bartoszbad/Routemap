@@ -1,0 +1,40 @@
+{% extends 'base1.html' %}
+{% block content %}
+    <button class="submit_btn" id="add_list">Dodaj kolejną listę</button>
+    <form method="post" class="none_display" class="forms">
+        {{ form }}
+        {% csrf_token %}
+        <input class="submit_btn_small" type="submit" value="{{ submit_btn }}">
+    </form>
+    {% for list in lists %}
+        <p id="list_name">Nazwa listy: {{ list.name }}</p>
+        <table class="hidden">
+            <tr>
+                <th>Start</th>
+                <th>Koniec</th>
+                <th>Stan nawierzchni</th>
+                <th id="scenic">Widoki</th>
+                <th>Radość z jazdy</th>
+                <th>Kraj</th>
+                <th>Region</th>
+                <th></th>
+            </tr>
+            {% for route in list.routes.all %} <!--dla kazdej Route zapisanej w Routes[list] --!>
+                <tr>
+                    <td>{{ route.starts }}</td>
+                    <td>{{ route.ends }}</td>
+                    <td>{{ route.surface_condition }}</td>
+                    <td>{{ route.scenic_rating }}</td>
+                    <td>{{ route.funny_to_drive }}</td>
+                    <td>{{ route.country.name }}</td>
+                    <td>{{ route.region.name }}</td>
+                    <td id="details">Szczegóły</td>
+                </tr>
+                <tr class="hidden">
+                    <td colspan="4">{% autoescape off %}{{ route.embed_view }} {% endautoescape %}</td>
+                    <td colspan="4"> {{ route.description }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endfor %}
+{% endblock %}

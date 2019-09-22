@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>{% block title %}{% endblock title %} | Routemap</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <script defer src="{% static 'js/app.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+
+<header id="header">
+    <div class="innertube">
+        <ul id="header_menu">
+            <li id="header_li">
+                <a class="header_links" href="/about_me/">
+                    O mnie
+                </a>
+            </li>
+            <li>
+                <a class="header_links" href="/about_page/">
+                    O stronie
+                </a>
+            </li>
+            {% if user.is_authenticated == False %}
+                <li>
+                    <a class="header_links" href="/login_view/">
+                        Zaloguj
+                    </a>
+                </li>
+                <li>
+                    <a class="header_links" href="/register/">
+                        Zarejestruj
+                    </a>
+                </li>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <li>
+                    <a class="header_links" href="/logout/">
+                        Wyloguj
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div id="wrapper">
+
+    <main>
+        <div id="content">
+            <div class="innertube">
+                {% block content %}{% endblock content %}
+            </div>
+        </div>
+    </main>
+
+    <nav id="nav">
+        <div class="innertube">
+            <ul>
+                <li id="side_menu"><a href="/">Lista tras</a></li>
+                <li id="side_menu"><a href="/photo_spots/">Lista fotogenicznych miejsc</a></li>
+                <li id="side_menu"><a href="/add_route/">Dodaj swoją trasę</a></li>
+                <li id="side_menu"><a href="/add_photo_spot/">Dodaj fotogeniczne miejsce</a></li>
+                {% if user.is_authenticated %}
+                    <li id="side_menu"><a href="/lists/">Zarządzaj swoimi listami</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+</div>
+
+
+</body>
+</html>
