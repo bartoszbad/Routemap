@@ -17,5 +17,4 @@
         The app is planned to be set on an online server.
         
    Are there some known issues or things that are not properly done?
-        Sharing database before setting on server.
         Code review hasn't been done yet. 

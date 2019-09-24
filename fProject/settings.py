@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+try:
+    from fProject.local_settings import user, password
+except ModuleNotFoundError:
+    print("Brak pliku local_settings")
+    exit(0)
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -80,8 +86,8 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'NAME': 'final_project',
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'postgres',         # pamiętaj o poprawnym skonfigurowaniu
-        'PASSWORD': 'coderslab',    # bazy danych!
+        'USER': user,         # pamiętaj o poprawnym skonfigurowaniu
+        'PASSWORD': password,    # bazy danych!
     }
 }
 
@@ -125,4 +131,4 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 LOGIN_URL = '/login_view/'
 
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'fProject', "routemap")
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'Routemap', "routemap")
